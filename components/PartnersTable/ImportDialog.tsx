@@ -5,18 +5,14 @@ import {
   DialogProps,
   Paragraph,
   FilePicker,
-  Small,
 } from "evergreen-ui";
 import Papa from "papaparse";
 
-interface ImportCompaniesDialogProps extends DialogProps {
-  onImportCompanies: (sirets: string[]) => void;
+interface ImportDialogProps extends DialogProps {
+  onImport: (sirets: string[]) => void;
 }
 
-export function ImportCompaniesDialog({
-  onImportCompanies,
-  ...props
-}: ImportCompaniesDialogProps) {
+export function ImportDialog({ onImport, ...props }: ImportDialogProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [sirets, setSirets] = React.useState<string[]>([]);
 
@@ -24,20 +20,18 @@ export function ImportCompaniesDialog({
     <Dialog
       {...props}
       isShown
-      title="Importer depuis un fichier"
-      confirmLabel={"Importer"}
+      title="Importer depuis un fichier .csv"
+      cancelLabel="Annuler"
+      confirmLabel="Importer"
       isConfirmLoading={isLoading}
-      onConfirm={() => {
-        onImportCompanies(sirets);
-      }}
+      isConfirmDisabled={sirets.length <= 0}
+      onConfirm={() => onImport(sirets)}
     >
       <Paragraph marginBottom={majorScale(1)}>
-        Importez la liste de vos partenaires via un fichier CSV. Le fichier doit
-        contenir une colonne nommée &quot;siret&quot;.
-      </Paragraph>
-      <Paragraph marginBottom={majorScale(1)}>
-        Note : la plupart des éditeurs du type Excel et Libre Office permettent
-        d&apos;exporter vos feuilles au format CSV.
+        Importez un fichier CSV qui liste vos partenaires, avec une colonne
+        nommée &quot;siret&quot;. Note : la plupart des outils tel que Microsoft
+        Excel, Google Sheets ou Libre Office permettent d&apos;enregistrer les
+        fichiers au format CSV.
       </Paragraph>
       <FilePicker
         onChange={(files) => {
@@ -47,11 +41,11 @@ export function ImportCompaniesDialog({
 
           setIsLoading(true);
 
-          Papa.parse<Record<string, any>>(files[0], {
+          Papa.parse<{ siret?: string }>(files[0], {
             header: true,
-            complete({ data: rows }) {
+            complete({ data }) {
               setSirets(
-                rows.reduce<string[]>((acc, row) => {
+                data.reduce<string[]>((acc, row) => {
                   if (
                     typeof row.siret === "string" &&
                     row.siret.length === 14
@@ -63,12 +57,13 @@ export function ImportCompaniesDialog({
                   return acc;
                 }, [])
               );
+
               setIsLoading(false);
             },
           });
         }}
+        placeholder="Envoyer un fichier CSV"
         accept=".csv"
-        placeholder="Envoyer un fichier tableur"
       />
     </Dialog>
   );

@@ -23,10 +23,10 @@ export default function Home() {
           paddingX={majorScale(1)}
           paddingY={majorScale(6)}
         >
-          <Pane marginBottom={majorScale(3)}>
-            <Heading size={800}>{siteMetadata.title}</Heading>
-            <Paragraph>{siteMetadata.description}</Paragraph>
-          </Pane>
+          <Heading size={800}>{siteMetadata.title}</Heading>
+          <Paragraph marginBottom={majorScale(3)}>
+            {siteMetadata.description}
+          </Paragraph>
           <PartnersTable />
         </Pane>
       </Pane>
