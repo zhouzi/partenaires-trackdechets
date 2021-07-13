@@ -24,15 +24,15 @@ export default function Home() {
             Embarquer mes partenaires Trackdéchets
           </Heading>
           <Paragraph marginBottom={majorScale(1)}>
-            Ce site s'adresse aux entreprises ayant déjà un compte{" "}
+            Ce site s&apos;adresse aux entreprises ayant déjà un compte{" "}
             <Link href="https://trackdechets.beta.gouv.fr" target="_blank">
               Trackdéchets
             </Link>{" "}
-            et souhaitant aider leurs partenaires à s'inscrire. Les données que
-            vous saisissez ne sont stockées que dans votre navigateur.
+            et souhaitant aider leurs partenaires à s&apos;inscrire. Les données
+            que vous saisissez ne sont stockées que dans votre navigateur.
           </Paragraph>
           <Paragraph marginBottom={majorScale(3)}>
-            Il s'agit d'un projet open source dont le{" "}
+            Il s&apos;agit d&apos;un projet open source dont le{" "}
             <Link
               href="https://github.com/zhouzi/partenaires-trackdechets"
               target="_blank"
@@ -44,10 +44,10 @@ export default function Home() {
               href="https://github.com/zhouzi/partenaires-trackdechets#readme"
               target="_blank"
             >
-              l'héberger vous même
+              l&apos;héberger vous même
             </Link>{" "}
             si vous souhaitez en avoir le contrôle total. Vous pouvez aussi
-            simplement vous connecter à l'
+            simplement vous connecter à l&apos;
             <Link
               href="https://developers.trackdechets.beta.gouv.fr/"
               target="_blank"
