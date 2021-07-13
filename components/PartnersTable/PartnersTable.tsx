@@ -21,6 +21,7 @@ import {
   Checkbox,
   TrashIcon,
   PlusIcon,
+  Tooltip,
 } from "evergreen-ui";
 import {
   CellProps,
@@ -87,9 +88,13 @@ const columns: Array<Column<Company>> = [
       return (
         <>
           {company.isRegistered ? (
-            <TickIcon color="success" />
+            <Tooltip content="Cette entreprise est inscrite sur Trackdéchets.">
+              <TickIcon color="success" />
+            </Tooltip>
           ) : (
-            <CrossIcon color="danger" />
+            <Tooltip content="Cette entreprise est inscrite sur Trackdéchets.">
+              <CrossIcon color="danger" />
+            </Tooltip>
           )}
         </>
       );
@@ -154,7 +159,7 @@ export function PartnersTable() {
         padding={majorScale(2)}
       >
         <Heading size={600}>Mes partenaires</Heading>
-        <Paragraph marginBottom={majorScale(3)}>
+        <Paragraph marginBottom={majorScale(2)}>
           Retrouvez vos partenaires et voyez si ils sont déjà inscrits sur
           Trackdéchets.
         </Paragraph>

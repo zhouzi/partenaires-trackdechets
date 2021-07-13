@@ -1,34 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# partenaires-trackdechets
 
-## Getting Started
+Application web listant des outils ayant pour objectif de faciliter l'embarquement de ses partenaires Trackdéchets.
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Il s'agit d'un projet [Next.js](https://nextjs.org/) qui a été créé via [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). Pour en installer une copie sur votre machine, vous devez :
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Avoir Node.js et yarn d'installés
+- En récupérer une copie
+- Dans le répertoire du projet :
+  - Jouer la commande `yarn`
+  - Puis jouer la commande `yarn dev` pour démarrer l'application
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Hébergement
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+Next.js est plus ou moins un projet Node.js classique. Le projet peut donc se déployer sans configuration chez la plupart des hébergeurs de type PaaS. Vous pouvez en apprendre plus sur la documentation de Next.js : [Deployment](https://nextjs.org/docs/deployment).
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Par exemple, la version déployée sur [partenaires-trackdechets.gabin.app](https://partenaires-trackdechets.gabin.app) est hébergée gratuitement par [Heroku](https://heroku.com), sans configuration particulière.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+À noter que Next.js permet un export du projet au format statique (HTML/CSS) qui permet en théorie de l'héberger avec un simple serveur web. Cette option n'est pas compatible avec le projet qui utilise les routes APIs de Next.js comme proxy pour communiquer avec l'API Trackdéchets (pour des questions de CORS).
