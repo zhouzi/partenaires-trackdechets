@@ -6,7 +6,7 @@ import {
   Heading,
   Paragraph,
   Button,
-  UploadIcon,
+  ImportIcon,
   RefreshIcon,
   Table,
   Small,
@@ -22,6 +22,7 @@ import {
   TrashIcon,
   PlusIcon,
   Tooltip,
+  ExportIcon,
 } from "evergreen-ui";
 import {
   CellProps,
@@ -32,6 +33,7 @@ import {
   FilterProps,
   useRowSelect,
 } from "react-table";
+import Papa from "papaparse";
 import { Company } from "../../types";
 import { ImportDialog } from "./ImportDialog";
 import { ImportCompanyDialog } from "./ImportCompanyDialog";
@@ -174,7 +176,7 @@ export function PartnersTable() {
             ) : (
               <Button
                 type="button"
-                iconBefore={UploadIcon}
+                iconBefore={ImportIcon}
                 appearance="primary"
                 onClick={() => setIsImportDialogShown(true)}
                 disabled={runningTask != null}
@@ -240,6 +242,31 @@ export function PartnersTable() {
               </Paragraph>
             </Pane>
             <Pane>
+              <Button
+                iconBefore={ExportIcon}
+                onClick={() => {
+                  const csv = Papa.unparse(companies);
+
+                  const blob = new Blob([csv], { type: "text/csv" });
+                  const link = document.createElement("a");
+
+                  link.download = `partenaires-trackdechets-${new Date()
+                    .toLocaleDateString()
+                    .replace(/\//g, "-")}.csv`;
+                  link.href = window.URL.createObjectURL(blob);
+                  link.dataset.downloadurl = [
+                    blob.type,
+                    link.download,
+                    link.href,
+                  ].join(":");
+
+                  link.click();
+                  link.remove();
+                }}
+                marginRight={majorScale(1)}
+              >
+                Exporter
+              </Button>
               <Button
                 intent="danger"
                 iconBefore={TrashIcon}
