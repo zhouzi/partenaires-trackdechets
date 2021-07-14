@@ -22,12 +22,14 @@ interface PartnersTableState {
       }
     | null;
   companies: Company[];
+  isOutdated: boolean;
 }
 
 function serializeState(state: PartnersTableState): Record<string, any> {
   return {
     runningTask: null,
     companies: state.companies,
+    isOutdated: true,
   };
 }
 
@@ -37,6 +39,7 @@ function deserializeState(
   return {
     runningTask: null,
     companies: serializedState.companies,
+    isOutdated: serializedState.isOutdated,
   };
 }
 
@@ -54,11 +57,94 @@ export function usePartnersTableState() {
     {
       runningTask: null,
       companies: [],
+      isOutdated: false,
     },
     serializeState,
     deserializeState
   );
   const isAbortedRef = React.useRef(false);
+
+  const fetchCompanies = React.useCallback(
+    async (
+      type: "importCompany" | "importCompanies" | "refreshCompanies",
+      sirets: string[]
+    ) => {
+      const completedSirets: string[] = [];
+      const companies: Company[] = [];
+
+      setState((currentState) => ({
+        ...currentState,
+        runningTask: {
+          type,
+          payload: {
+            sirets,
+            completedSirets,
+          },
+        },
+        isOutdated:
+          type === "refreshCompanies" ? false : currentState.isOutdated,
+      }));
+
+      for (const siret of sirets) {
+        const existingCompany = state.companies.find(
+          (company) => company.siret === siret
+        );
+
+        if (existingCompany?.isRegistered) {
+          await delay(200);
+        } else {
+          try {
+            const { data } = await client.get<Company>(`/companies/${siret}`);
+            companies.push(data);
+          } catch (error) {}
+        }
+
+        completedSirets.push(siret);
+
+        if (isAbortedRef.current) {
+          return;
+        }
+
+        setState((currentState) => ({
+          ...currentState,
+          runningTask: {
+            type,
+            payload: {
+              sirets,
+              completedSirets,
+            },
+          },
+        }));
+      }
+
+      setState((currentState) => ({
+        ...currentState,
+        companies: uniqueCompanies(companies.concat(currentState.companies)),
+        runningTask: null,
+      }));
+    },
+    [state, setState]
+  );
+
+  const importCompany = (siret: string) =>
+    fetchCompanies("importCompany", [siret]);
+
+  const importCompanies = (sirets: string[]) =>
+    fetchCompanies("importCompanies", sirets);
+
+  const refreshCompanies = React.useCallback(
+    (sirets: string[]) => fetchCompanies("refreshCompanies", sirets),
+    [fetchCompanies]
+  );
+
+  const removeCompanies = (sirets: string[]) => {
+    setState((currentState) => ({
+      ...currentState,
+      companies: currentState.companies.filter(
+        (company) => !sirets.includes(company.siret)
+      ),
+    }));
+  };
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -72,80 +158,11 @@ export function usePartnersTableState() {
     };
   }, []);
 
-  const fetchCompanies = async (
-    type: "importCompany" | "importCompanies" | "refreshCompanies",
-    sirets: string[]
-  ) => {
-    const completedSirets: string[] = [];
-    const companies: Company[] = [];
-
-    setState((currentState) => ({
-      ...currentState,
-      runningTask: {
-        type,
-        payload: {
-          sirets,
-          completedSirets,
-        },
-      },
-    }));
-
-    for (const siret of sirets) {
-      const existingCompany = state.companies.find(
-        (company) => company.siret === siret
-      );
-
-      if (existingCompany?.isRegistered) {
-        await delay(200);
-      } else {
-        try {
-          const { data } = await client.get<Company>(`/companies/${siret}`);
-          companies.push(data);
-        } catch (error) {}
-      }
-
-      completedSirets.push(siret);
-
-      if (isAbortedRef.current) {
-        return;
-      }
-
-      setState((currentState) => ({
-        ...currentState,
-        runningTask: {
-          type,
-          payload: {
-            sirets,
-            completedSirets,
-          },
-        },
-      }));
+  React.useEffect(() => {
+    if (state.isOutdated) {
+      refreshCompanies(state.companies.map((company) => company.siret));
     }
-
-    setState((currentState) => ({
-      ...currentState,
-      companies: uniqueCompanies(companies.concat(currentState.companies)),
-      runningTask: null,
-    }));
-  };
-
-  const importCompany = (siret: string) =>
-    fetchCompanies("importCompany", [siret]);
-
-  const importCompanies = (sirets: string[]) =>
-    fetchCompanies("importCompanies", sirets);
-
-  const removeCompanies = (sirets: string[]) => {
-    setState((currentState) => ({
-      ...currentState,
-      companies: currentState.companies.filter(
-        (company) => !sirets.includes(company.siret)
-      ),
-    }));
-  };
-
-  const refreshCompanies = (sirets: string[]) =>
-    fetchCompanies("refreshCompanies", sirets);
+  }, [refreshCompanies, state]);
 
   return {
     ...state,
