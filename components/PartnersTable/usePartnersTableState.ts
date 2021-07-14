@@ -10,7 +10,7 @@ interface PartnersTableState {
   runningTask:
     | {
         type: "importCompany";
-        payload: { siret: string };
+        payload: { sirets: string[]; completedSirets: string[] };
       }
     | {
         type: "importCompanies";
@@ -72,35 +72,8 @@ export function usePartnersTableState() {
     };
   }, []);
 
-  const importCompany = async (siret: string) => {
-    setState((currentState) => ({
-      ...currentState,
-      runningTask: {
-        type: "importCompany",
-        payload: {
-          siret,
-        },
-      },
-    }));
-
-    try {
-      const { data: company } = await client.get<Company>(
-        `/companies/${siret}`
-      );
-      setState((currentState) => ({
-        ...currentState,
-        companies: uniqueCompanies([company].concat(currentState.companies)),
-      }));
-    } catch (error) {}
-
-    setState((currentState) => ({
-      ...currentState,
-      runningTask: null,
-    }));
-  };
-
   const fetchCompanies = async (
-    type: "importCompanies" | "refreshCompanies",
+    type: "importCompany" | "importCompanies" | "refreshCompanies",
     sirets: string[]
   ) => {
     const completedSirets: string[] = [];
@@ -155,6 +128,9 @@ export function usePartnersTableState() {
       runningTask: null,
     }));
   };
+
+  const importCompany = (siret: string) =>
+    fetchCompanies("importCompany", [siret]);
 
   const importCompanies = (sirets: string[]) =>
     fetchCompanies("importCompanies", sirets);
