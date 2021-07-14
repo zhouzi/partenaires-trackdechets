@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { majorScale, Pane, Heading, Paragraph, Link } from "evergreen-ui";
+import { majorScale, Pane, Heading, Paragraph, Link, Text } from "evergreen-ui";
 import { PartnersTable } from "../components";
 
 export default function Home() {
@@ -57,6 +57,31 @@ export default function Home() {
             pour répondre à votre besoin de façon plus précise.
           </Paragraph>
           <PartnersTable />
+          <Pane is="footer" display="flex">
+            <Pane flex={1}>
+              <Link
+                href="https://github.com/zhouzi/partenaires-trackdechets"
+                target="_blank"
+              >
+                Code source
+              </Link>
+            </Pane>
+            <Pane>
+              <Link
+                href="https://trackdechets.beta.gouv.fr"
+                target="_blank"
+                marginRight={majorScale(1)}
+              >
+                Site officiel Trackdéchets
+              </Link>
+              <Link
+                href="https://trackdechets.beta.gouv.fr/resources"
+                target="_blank"
+              >
+                Ressources Trackdéchets
+              </Link>
+            </Pane>
+          </Pane>
         </Pane>
       </Pane>
     </>

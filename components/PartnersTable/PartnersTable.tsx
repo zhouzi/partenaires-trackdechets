@@ -159,6 +159,7 @@ export function PartnersTable() {
         background="white"
         borderRadius={3}
         padding={majorScale(2)}
+        marginBottom={majorScale(3)}
       >
         <Heading size={600}>Mes partenaires</Heading>
         <Paragraph marginBottom={majorScale(2)}>
