@@ -99,69 +99,17 @@ export function usePartnersTableState() {
     }));
   };
 
-  const importCompanies = async (sirets: string[]) => {
+  const fetchCompanies = async (
+    type: "importCompanies" | "refreshCompanies",
+    sirets: string[]
+  ) => {
     const completedSirets: string[] = [];
     const companies: Company[] = [];
 
     setState((currentState) => ({
       ...currentState,
       runningTask: {
-        type: "importCompanies",
-        payload: {
-          sirets,
-          completedSirets,
-        },
-      },
-    }));
-
-    for (const siret of sirets) {
-      try {
-        const { data } = await client.get<Company>(`/companies/${siret}`);
-        companies.push(data);
-      } catch (error) {}
-
-      completedSirets.push(siret);
-
-      if (isAbortedRef.current) {
-        return;
-      }
-
-      setState((currentState) => ({
-        ...currentState,
-        runningTask: {
-          type: "importCompanies",
-          payload: {
-            sirets,
-            completedSirets,
-          },
-        },
-      }));
-    }
-
-    setState((currentState) => ({
-      ...currentState,
-      companies: uniqueCompanies(companies.concat(currentState.companies)),
-      runningTask: null,
-    }));
-  };
-
-  const removeCompanies = (sirets: string[]) => {
-    setState((currentState) => ({
-      ...currentState,
-      companies: currentState.companies.filter(
-        (company) => !sirets.includes(company.siret)
-      ),
-    }));
-  };
-
-  const refreshCompanies = async (sirets: string[]) => {
-    const completedSirets: string[] = [];
-    const companies: Company[] = [];
-
-    setState((currentState) => ({
-      ...currentState,
-      runningTask: {
-        type: "refreshCompanies",
+        type,
         payload: {
           sirets,
           completedSirets,
@@ -192,7 +140,7 @@ export function usePartnersTableState() {
       setState((currentState) => ({
         ...currentState,
         runningTask: {
-          type: "refreshCompanies",
+          type,
           payload: {
             sirets,
             completedSirets,
@@ -207,6 +155,21 @@ export function usePartnersTableState() {
       runningTask: null,
     }));
   };
+
+  const importCompanies = (sirets: string[]) =>
+    fetchCompanies("importCompanies", sirets);
+
+  const removeCompanies = (sirets: string[]) => {
+    setState((currentState) => ({
+      ...currentState,
+      companies: currentState.companies.filter(
+        (company) => !sirets.includes(company.siret)
+      ),
+    }));
+  };
+
+  const refreshCompanies = (sirets: string[]) =>
+    fetchCompanies("refreshCompanies", sirets);
 
   return {
     ...state,

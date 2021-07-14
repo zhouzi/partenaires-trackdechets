@@ -236,7 +236,7 @@ export function PartnersTable() {
           >
             <Pane flex={1}>
               <Paragraph>
-                {selectedFlatRows.length} ligne(s) sélectionnée(s).
+                {selectedFlatRows.length} entreprise(s) sélectionnée(s).
               </Paragraph>
             </Pane>
             <Pane>
@@ -246,7 +246,7 @@ export function PartnersTable() {
                 onClick={() => {
                   if (
                     window.confirm(
-                      `Êtes-vous sûr de vouloir supprimer ${selectedFlatRows.length} ligne(s) ?`
+                      `Êtes-vous sûr de vouloir retirer ${selectedFlatRows.length} entreprise(s) de vos partenaires ?`
                     )
                   ) {
                     removeCompanies(

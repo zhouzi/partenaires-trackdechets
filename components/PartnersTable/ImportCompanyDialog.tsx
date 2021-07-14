@@ -9,7 +9,6 @@ export function ImportCompanyDialog({
   onImportCompany,
   ...props
 }: ImportCompanyDialogProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
   const [siret, setSiret] = React.useState("");
 
   return (
@@ -19,7 +18,6 @@ export function ImportCompanyDialog({
       title="Ajouter une entreprise"
       cancelLabel="Annuler"
       confirmLabel="Ajouter"
-      isConfirmLoading={isLoading}
       isConfirmDisabled={!/\d{14}/.test(siret)}
       onConfirm={() => onImportCompany(siret)}
     >
