@@ -1,16 +1,35 @@
 # partenaires-trackdechets
 
-Application web listant des outils ayant pour objectif de faciliter l'embarquement de ses partenaires Trackdéchets.
+Ce site s'adresse aux entreprises ayant déjà un compte Trackdéchets et souhaitant aider leurs partenaires à s'inscrire. Les données que vous saisissez ne sont stockées que dans votre navigateur.
 
 ## Installation
 
-Il s'agit d'un projet [Next.js](https://nextjs.org/) qui a été créé via [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). Pour en installer une copie sur votre machine, vous devez :
+Afin de faire fonctionner l'application, doivent être installés sur la machine :
 
-- Avoir Node.js et yarn d'installés
-- En récupérer une copie
-- Dans le répertoire du projet :
-  - Jouer la commande `yarn`
-  - Puis jouer la commande `yarn dev` pour démarrer l'application
+- [Node.js](https://nodejs.org/)
+- [Yarn](https://yarnpkg.com/)
+
+Vous pourrez ensuite installer l'application comme suit :
+
+1. Récupérer une copie du code :
+
+```
+git clone https://github.com/Zhouzi/partenaires-trackdechets.git
+```
+
+2. Dans le répertoire de l'application, installer les dépendances :
+
+```
+yarn
+```
+
+3. Démarrer l'application en mode développement :
+
+```
+yarn dev
+```
+
+Note : cette application est basée sur [Next.js](https://nextjs.org/) et a été généré via [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Hébergement
 
@@ -18,4 +37,4 @@ Next.js est plus ou moins un projet Node.js classique. Le projet peut donc se d�
 
 Par exemple, la version déployée sur [partenaires-trackdechets.gabin.app](https://partenaires-trackdechets.gabin.app) est hébergée gratuitement par [Heroku](https://heroku.com), sans configuration particulière.
 
-À noter que Next.js permet un export du projet au format statique (HTML/CSS) qui permet en théorie de l'héberger avec un simple serveur web. Cette option n'est pas compatible avec le projet qui utilise les routes APIs de Next.js comme proxy pour communiquer avec l'API Trackdéchets (pour des questions de CORS).
+À noter que Next.js permet un export du projet au format statique (HTML/CSS) afin de l'héberger avec un simple serveur web. Cette option n'est pas compatible avec cette application qui [utilise les routes APIs](https://github.com/Zhouzi/partenaires-trackdechets/tree/master/pages/api/) de Next.js comme proxy pour communiquer avec l'API Trackdéchets (pour des questions de CORS).
