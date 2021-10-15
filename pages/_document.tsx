@@ -6,8 +6,8 @@ import Document, {
   NextScript,
 } from "next/document";
 import { extractStyles } from "evergreen-ui";
+import urlJoin from "url-join";
 import { siteMetadata } from "../constants";
-import demoGif from "../assets/demo.gif";
 
 interface MyDocumentProps {
   css: string;
@@ -35,7 +35,10 @@ export default class MyDocument extends Document<MyDocumentProps> {
           <link rel="icon" href="/favicon.ico" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={siteMetadata.url} />
-          <meta property="og:image" content={demoGif.src} />
+          <meta
+            property="og:image"
+            content={urlJoin(siteMetadata.url, "assets/demo.gif")}
+          />
           <style dangerouslySetInnerHTML={{ __html: css }} />
         </Head>
 

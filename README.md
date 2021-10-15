@@ -2,7 +2,7 @@
 
 Ce site s'adresse aux entreprises ayant déjà un compte Trackdéchets et souhaitant aider leurs partenaires à s'inscrire. Les données que vous saisissez ne sont stockées que dans votre navigateur.
 
-![](./assets/demo.gif)
+![](./public/assets/demo.gif)
 
 ## Installation
 
