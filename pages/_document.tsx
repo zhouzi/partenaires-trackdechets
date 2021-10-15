@@ -6,6 +6,8 @@ import Document, {
   NextScript,
 } from "next/document";
 import { extractStyles } from "evergreen-ui";
+import { siteMetadata } from "../constants";
+import demoGif from "../assets/demo.gif";
 
 interface MyDocumentProps {
   css: string;
@@ -30,6 +32,10 @@ export default class MyDocument extends Document<MyDocumentProps> {
     return (
       <Html lang="fr">
         <Head>
+          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={siteMetadata.url} />
+          <meta property="og:image" content={demoGif.src} />
           <style dangerouslySetInnerHTML={{ __html: css }} />
         </Head>
 

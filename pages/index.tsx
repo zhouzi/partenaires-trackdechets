@@ -1,17 +1,16 @@
 import Head from "next/head";
-import { majorScale, Pane, Heading, Paragraph, Link, Text } from "evergreen-ui";
+import { majorScale, Pane, Heading, Paragraph, Link } from "evergreen-ui";
+import { siteMetadata } from "../constants";
 import { PartnersTable } from "../components";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Embarquer mes partenaires Trackdéchets</title>
-        <meta
-          name="description"
-          content="Ce site regroupe des outils permettant aux entreprises inscrites sur Trackdéchets d'embarquer leurs partenaires plus facilement. Retrouvez vos partenaires, voyez lesquels sont inscrits et accédez à une liste de ressources adaptées selon leur profil."
-        />
-        <link rel="icon" href="/favicon.ico" />
+        <title>{siteMetadata.title}</title>
+        <meta name="description" content={siteMetadata.description} />
+        <meta property="og:title" content={siteMetadata.title} />
+        <meta property="og:description" content={siteMetadata.description} />
       </Head>
       <Pane background="tint2" minHeight="100vh">
         <Pane
