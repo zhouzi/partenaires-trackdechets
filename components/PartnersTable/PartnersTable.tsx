@@ -94,7 +94,7 @@ const columns: Array<Column<Company>> = [
               <TickIcon color="success" />
             </Tooltip>
           ) : (
-            <Tooltip content="Cette entreprise est inscrite sur Trackdéchets.">
+            <Tooltip content="Cette entreprise n'est pas inscrite sur Trackdéchets.">
               <CrossIcon color="danger" />
             </Tooltip>
           )}
