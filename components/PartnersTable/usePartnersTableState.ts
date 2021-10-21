@@ -1,5 +1,6 @@
 import * as React from "react";
 import delay from "delay";
+import { toaster } from "evergreen-ui";
 import { Company } from "../../types";
 import { client } from "../../client";
 import { usePersistedState } from "../../hooks";
@@ -96,7 +97,15 @@ export function usePartnersTableState() {
           try {
             const { data } = await client.get<Company>(`/companies/${siret}`);
             companies.push(data);
-          } catch (error) {}
+          } catch (error) {
+            toaster.danger(
+              `${siret} : impossible de récupérer les informations`,
+              {
+                description:
+                  "L'entreprise a peut-être choisie de ne pas diffuser ses informations.",
+              }
+            );
+          }
         }
 
         completedSirets.push(siret);
